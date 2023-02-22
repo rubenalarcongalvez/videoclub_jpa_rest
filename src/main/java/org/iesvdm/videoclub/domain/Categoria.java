@@ -15,7 +15,6 @@ import java.util.Set;
 @Entity
 @Table(name = "categoria")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Categoria {
@@ -24,6 +23,7 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")
     private long id;
+
     private String nombre;
 
     @ManyToMany(
@@ -35,5 +35,13 @@ public class Categoria {
     @JsonFormat(pattern = "yyyy-MM-dd-HH:mm:ss",  shape = JsonFormat.Shape.STRING)
     private Date ultimaActualizacion;
 
+    private int conteoPeliculas;
 
+    public Categoria(long id, String nombre, Set<Pelicula> peliculas, Date ultimaActualizacion, int conteoPeliculas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.peliculas = peliculas;
+        this.ultimaActualizacion = ultimaActualizacion;
+        this.conteoPeliculas = peliculas.size();
+    }
 }

@@ -11,7 +11,7 @@ import { Categoria } from './categoria';
 })
 export class CategoriaService {
 
-  private apiURL = "http://localhost:8080/api/............¿?";
+  private apiURL = "http://localhost:8080/api/v1/categorias";
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -36,21 +36,21 @@ export class CategoriaService {
   }
 
   find(id: number): Observable<Categoria> {
-    return this.httpClient.get<Categoria>(this.apiURL + id)
+    return this.httpClient.get<Categoria>(this.apiURL + "/" + id)
       .pipe(
         catchError(this.errorHandler)
       )
   }
 
   update(id: number, categoria: Categoria): Observable<Categoria> {
-    return this.httpClient.put<Categoria>(this.apiURL + id, JSON.stringify(categoria), this.httpOptions)
+    return this.httpClient.put<Categoria>(this.apiURL + "/" + id, JSON.stringify(categoria), this.httpOptions)
       .pipe(
         catchError(this.errorHandler)
       )
   }
 
   delete(id: number){
-    return this.httpClient.delete<Categoria>(this.apiURL + id, this.httpOptions)
+    return this.httpClient.delete<Categoria>(this.apiURL + "/" + id, this.httpOptions)
       .pipe(
         catchError(this.errorHandler)
       )

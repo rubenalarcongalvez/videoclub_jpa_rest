@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CategoriaRoutingModule } from './categoria-routing.module';
+import { PeliculaRoutingModule } from './pelicula-routing.module';
 import { IndexComponent } from './index/index.component';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -16,14 +16,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
   ],
   imports: [
     CommonModule,
-    CategoriaRoutingModule,
+    PeliculaRoutingModule,
     ReactiveFormsModule
   ],
   exports: [
-    CategoriaRoutingModule,
+    PeliculaRoutingModule,
     IndexComponent,
     CreateComponent,
     EditComponent
   ]
 })
-export class CategoriaModule { }
+export class PeliculaModule { }
