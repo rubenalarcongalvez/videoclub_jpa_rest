@@ -31,11 +31,11 @@ public class PeliculaController {
 
     @PostMapping({"","/"})
     public Pelicula newPelicula(@RequestBody Pelicula pelicula) {
-        long[] categorias = pelicula.getCategorias().stream().mapToLong(Categoria::getId).toArray();
-
-        for (int i = 0; i < categorias.length; i++) {
-            this.categoriaService.one(categorias[i]).setConteoPeliculas(this.categoriaService.one(categorias[i]).getConteoPeliculas() + 1);
-        }
+//        long[] categorias = pelicula.getCategorias().stream().mapToLong(Categoria::getId).toArray();
+//
+//        for (int i = 0; i < categorias.length; i++) {
+//            this.categoriaService.one(categorias[i]).setConteoPeliculas(this.categoriaService.one(categorias[i]).getConteoPeliculas() + 1);
+//        }
 
         pelicula.setUltimaActualizacion(new Date());
         return this.peliculaService.save(pelicula);

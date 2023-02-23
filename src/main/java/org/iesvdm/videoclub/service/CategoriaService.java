@@ -47,21 +47,47 @@ public class CategoriaService {
                 .orElseThrow(() -> new CategoriaNotFoundException(id));
     }
 
-    public List<Categoria> allByQueryFiltersStream(Optional<String> optionalBuscar, Optional<String> optionalOrdenar) {
+//    public List<Categoria> allByQueryFiltersStream(Optional<String> optionalBuscar, Optional<String> optionalOrdenar) {
+//
+//        if (optionalOrdenar.equals(Optional.of("asc"))) {
+//            return this.categoriaRepository.findAllByNombreContainingIgnoreCaseOrderByNombreAsc(optionalBuscar.get());
+//        } else {
+//            return this.categoriaRepository.findAllByNombreContainingIgnoreCaseOrderByNombreDesc(optionalBuscar.get());
+//        }
+//
+//    }
+//
+//    //Paginación
+//    public Map<String, Object> all(int pagina, int tamanio) {
+//        Pageable paginado = PageRequest.of(pagina, tamanio, Sort.by("id"));
+//
+//        Page<Categoria> pageAll = this.categoriaRepository.findAll(paginado);
+//
+//        Map<String, Object> response = new HashMap<>();
+//
+//        response.put("categorias", pageAll.getContent());
+//        response.put("currentPage", pageAll.getNumber());
+//        response.put("totalItems", pageAll.getTotalElements());
+//        response.put("totalPages", pageAll.getTotalPages());
+//
+//        return response;
+//    }
 
-        if (optionalOrdenar.equals(Optional.of("asc"))) {
-            return this.categoriaRepository.findAllByNombreContainingIgnoreCaseOrderByNombreAsc(optionalBuscar.get());
-        } else {
-            return this.categoriaRepository.findAllByNombreContainingIgnoreCaseOrderByNombreDesc(optionalBuscar.get());
+    //Paginación con filtros
+    public Map<String, Object> all(Optional<String> optionalBuscar, Optional<String> optionalOrdenar, int pagina, int tamanio) {
+
+        Pageable paginado = PageRequest.of(pagina, tamanio, Sort.by("nombre").ascending());
+        Page<Categoria> pageAll;
+
+        if (optionalOrdenar.isPresent() && optionalOrdenar.equals(Optional.of("desc"))) {
+            paginado = PageRequest.of(pagina, tamanio, Sort.by("nombre").descending());
         }
 
-    }
-
-    //Paginación
-    public Map<String, Object> all(int pagina, int tamanio) {
-        Pageable paginado = PageRequest.of(pagina, tamanio, Sort.by("id"));
-
-        Page<Categoria> pageAll = this.categoriaRepository.findAll(paginado);
+        if (optionalBuscar.isPresent()) {
+            pageAll = this.categoriaRepository.findAllByNombreContainingIgnoreCase(optionalBuscar.get() , paginado);
+        } else {
+            pageAll = this.categoriaRepository.findAll(paginado);
+        }
 
         Map<String, Object> response = new HashMap<>();
 

@@ -31,20 +31,29 @@ public class CategoriaController {
     }
 
     //Ruta sin exclusión de los params por negación
-    @GetMapping(value = {"", "/"}, params = {"!pagina", "!tamanio"})
-    public List<Categoria> all(@RequestParam("buscar") Optional<String> buscarOptional, @RequestParam("ordenar") Optional<String> ordenarOptional) {
-        log.info("Accediendo a todas las categorias con filtro buscar: %s y ordenar: %o",
-                buscarOptional.orElse("VOID"),
-                ordenarOptional.orElse("VOID"));
+//    @GetMapping(value = {"", "/"}, params = {"!pagina", "!tamanio"})
+//    public List<Categoria> all(@RequestParam("buscar") Optional<String> buscarOptional, @RequestParam("ordenar") Optional<String> ordenarOptional) {
+//        log.info("Accediendo a todas las categorias con filtro buscar: %s y ordenar: %o",
+//                buscarOptional.orElse("VOID"),
+//                ordenarOptional.orElse("VOID"));
+//
+//        return this.categoriaService.allByQueryFiltersStream(buscarOptional, ordenarOptional);
+//    }
+//
+//    @GetMapping(value = {"", "/"}, params = {"!buscar", "!ordenar"})
+//    public ResponseEntity<Map<String, Object>> all(@RequestParam("pagina") int pagina, @RequestParam("tamanio") int tamanio) {
+//        log.info("Accediendo a todas las categorias con paginación");
+//
+//        Map<String, Object> responseall = this.categoriaService.all(pagina, tamanio);
+//
+//        return ResponseEntity.ok(responseall);
+//    }
 
-        return this.categoriaService.allByQueryFiltersStream(buscarOptional, ordenarOptional);
-    }
+    @GetMapping(value = {"", "/"})
+    public ResponseEntity<Map<String, Object>> all(@RequestParam("buscar") Optional<String> buscarOptional, @RequestParam("ordenar") Optional<String> ordenarOptional, @RequestParam("pagina") int pagina, @RequestParam("tamanio") int tamanio) {
+        log.info("Accediendo a todas las categorias con los filtros puestos");
 
-    @GetMapping(value = {"", "/"}, params = {"!buscar", "!ordenar"})
-    public ResponseEntity<Map<String, Object>> all(@RequestParam("pagina") int pagina, @RequestParam("tamanio") int tamanio) {
-        log.info("Accediendo a todas las categorias con paginación");
-
-        Map<String, Object> responseall = this.categoriaService.all(pagina, tamanio);
+        Map<String, Object> responseall = this.categoriaService.all(buscarOptional, ordenarOptional, pagina, tamanio);
 
         return ResponseEntity.ok(responseall);
     }

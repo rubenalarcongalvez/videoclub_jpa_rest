@@ -3,10 +3,7 @@ package org.iesvdm.videoclub.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,7 +13,9 @@ import java.util.Set;
 @Table(name = "categoria")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@EqualsAndHashCode(of = "id")
 public class Categoria {
 
     @Id
@@ -27,7 +26,7 @@ public class Categoria {
     private String nombre;
 
     @ManyToMany(
-            mappedBy = "categorias")
+            mappedBy = "categorias", fetch = FetchType.EAGER)
     @JsonIgnore
     Set<Pelicula> peliculas = new HashSet<>();
 
@@ -35,13 +34,17 @@ public class Categoria {
     @JsonFormat(pattern = "yyyy-MM-dd-HH:mm:ss",  shape = JsonFormat.Shape.STRING)
     private Date ultimaActualizacion;
 
-    private int conteoPeliculas;
-
-    public Categoria(long id, String nombre, Set<Pelicula> peliculas, Date ultimaActualizacion, int conteoPeliculas) {
-        this.id = id;
-        this.nombre = nombre;
-        this.peliculas = peliculas;
-        this.ultimaActualizacion = ultimaActualizacion;
-        this.conteoPeliculas = peliculas.size();
+    public int getConteoPeliculas() {
+        return this.peliculas.size();
     }
+
+//    private int conteoPeliculas;
+
+//    public Categoria(long id, String nombre, Set<Pelicula> peliculas, Date ultimaActualizacion, int conteoPeliculas) {
+//        this.id = id;
+//        this.nombre = nombre;
+//        this.peliculas = peliculas;
+//        this.ultimaActualizacion = ultimaActualizacion;
+//        this.conteoPeliculas = peliculas.size();
+//    }
 }
